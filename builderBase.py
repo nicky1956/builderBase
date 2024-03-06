@@ -144,8 +144,8 @@ def click_image_location(template_paths, bottom_right=False):
         template = cv2.imread(template_path)
 
         # Rescale the template based on the screenshot resolution
-        width_scale = threshold_image.shape[1] / 1710
-        height_scale = threshold_image.shape[0] / 991
+        width_scale = threshold_image.shape[1] / 2422
+        height_scale = threshold_image.shape[0] / 1393
         template = cv2.resize(template, None, fx=width_scale, fy=height_scale)
 
         # Use template matching to find the location of the template in the threshold image
@@ -189,7 +189,7 @@ wait_for_window('Clash of Clans')
 time.sleep(7)
 
 #use attack template to find and click
-click_image_location(r"assets\attack.png")
+click_image_location([r"assets\attack.png",r"assets\attack2.png"])
 
 #use  find now template to find and click, wait for attack click to go through
 time.sleep(1)
