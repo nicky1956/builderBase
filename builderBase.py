@@ -18,6 +18,8 @@ def resource_path(relative_path):
 def locate_play_button():
     target_monitor_title = 'Google Play Games beta'
     target_monitor = gw.getWindowsWithTitle(target_monitor_title)
+    print(target_monitor)
+    print(target_monitor[0])
 
     if target_monitor:
         target_monitor = target_monitor[0]
@@ -209,6 +211,7 @@ def main():
     #find play button and then click it
     play_button_location = locate_play_button()
     if play_button_location == None:
+        print("Cannot find play button")
         return
     click_play_button(play_button_location)
     
