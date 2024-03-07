@@ -4,7 +4,16 @@ import pyautogui
 import pygetwindow as gw
 import time
 import pydirectinput
-import signal
+import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def locate_play_button():
     target_monitor_title = 'Google Play Games beta'
@@ -219,28 +228,31 @@ def main():
     pyautogui.scroll(-10000)
     
     #click on the elixir cart
-    click_image_location([r"assets\elixirElixir.png", r"assets\elixirFight.png",
-                          r"assets\elixirBase.png"])
+    click_image_location([resource_path(r"assets\elixirElixir.png"),
+                          resource_path(r"assets\elixirFight.png"),
+                          resource_path(r"assets\elixirBase.png")])
     
     #click on the collect button
     time.sleep(.5)
-    click_image_location([r"assets\collect.png"])
+    click_image_location(resource_path(r"assets\collect.png"))
     pydirectinput.press('esc')
     time.sleep(1.5)
     
     #use attack template to find and click
-    click_image_location([r"assets\attack.png",r"assets\attack2.png"])
+    click_image_location([resource_path(r"assets\attack.png"),
+                          resource_path(r"assets\attack2.png")])
     
     #use  find now template to find and click, wait for attack click to go through
     time.sleep(1)
-    click_image_location(r"assets\findnow.png")
+    click_image_location(resource_path(r"assets\findnow.png"))
     
     #scroll all the way out and then drag down so we see top half of the base
     drag_to_bottom()
     
     #deploy troops
-    click_coordinates = click_image_location(
-        [r"assets\secondDirty.png",r"assets\secondClean.png"],bottom_right=True)
+    click_coordinates = click_image_location([resource_path(r"assets\secondDirty.png"),
+                                              resource_path(r"assets\secondClean.png")],
+                                             bottom_right=True)
     if click_coordinates == None:
         close_clash_of_clans()
         return
@@ -253,5 +265,8 @@ def main():
     close_clash_of_clans()
     
 if __name__ == "__main__":
-    while True:
-        main()
+    try:
+        while True:
+            main()
+    except:
+        input("Press enter to continue...")
