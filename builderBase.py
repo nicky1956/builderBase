@@ -14,60 +14,6 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
-def locate_play_button():
-    target_monitor_title = 'Google Play Games beta'
-    target_monitor = gw.getWindowsWithTitle(target_monitor_title)
-    print(target_monitor)
-    print(target_monitor[0])
-
-    if target_monitor:
-        target_monitor = target_monitor[0]
-
-        screenshot = pyautogui.screenshot(region=(target_monitor.left, target_monitor.top,
-                                                  target_monitor.width, target_monitor.height))
-        screenshot_np = np.array(screenshot)
-        screenshot_rgb = cv2.cvtColor(screenshot_np, cv2.COLOR_BGR2RGB)
-
-        # Define the lower and upper bounds for the green color in BGR format
-        lower_green = np.array([140, 215, 65], dtype=np.uint8)
-        upper_green = np.array([160, 235, 85], dtype=np.uint8)
-
-        # Create a mask to extract only the green regions
-        mask = cv2.inRange(screenshot_rgb, lower_green, upper_green)
-
-        # Find contours in the mask
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # Calculate the total area of the screenshot
-        total_area = target_monitor.width * target_monitor.height
-
-        for contour in contours:
-            # Calculate the area of the contour
-            area = cv2.contourArea(contour)
-
-            # Adjusted condition based on contour area as a percentage of the total area
-            percentage_threshold = 0.004  # Adjust this percentage as needed
-            if (area / total_area) > percentage_threshold:
-                # Calculate the centroid of the contour
-                M = cv2.moments(contour)
-                if M["m00"] != 0:
-                    cx = int(M["m10"] / M["m00"])
-                    cy = int(M["m01"] / M["m00"])
-
-                    # Add the monitor offset to the centroid coordinates
-                    play_button_center = (cx + target_monitor.left, cy + target_monitor.top)
-
-                    return play_button_center
-
-    return None
-
-def click_play_button(coordinates):
-    if coordinates:
-        pyautogui.click(coordinates[0], coordinates[1])
-        print("Clicked the green play button.")
-    else:
-        print("Green play button not found.")
         
 def wait_for_window(title, timeout=10):
     start_time = time.time()
@@ -82,8 +28,8 @@ def wait_for_window(title, timeout=10):
 
     return False
         
-def getClashWindow():
-    target_monitor = gw.getWindowsWithTitle('Clash of Clans')
+def getWindow(title):
+    target_monitor = gw.getWindowsWithTitle(title)
 
     if target_monitor:
         target_monitor = target_monitor[0]
@@ -159,9 +105,9 @@ def drag_to_bottom():
 
         print("Mouse dragged from top middle to bottom middle.")
 
-def click_image_location(template_paths, bottom_right=False):
+def click_image_location(template_paths, title='Clash of Clans', bottom_right=False):
     # Get target window and color image for the Clash window
-    target_monitor, threshold_image = getClashWindow()
+    target_monitor, threshold_image = getWindow(title)
 
     # Check if template_paths is a list; if not, cast it
     if not isinstance(template_paths, list):
@@ -208,13 +154,14 @@ def click_image_location(template_paths, bottom_right=False):
     print("No matching templates found.")
 
 def main():
-    #find play button and then click it
-    play_button_location = locate_play_button()
+    #Click on play button
+    play_button_location = click_image_location(resource_path(r"assets\play.png"),
+                                                title='Google Play Games beta')
     if play_button_location == None:
         print("Cannot find play button")
+        time.sleep(.5)
         return
-    click_play_button(play_button_location)
-    
+
     #wait for COC to launch
     wait_for_window('Clash of Clans')
     
@@ -271,5 +218,6 @@ if __name__ == "__main__":
     try:
         while True:
             main()
-    except:
+    except Exception as e:
+        print(e)
         input("Press enter to continue...")
