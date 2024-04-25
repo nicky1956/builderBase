@@ -8,7 +8,7 @@ a = Analysis(
     ['builderBase.py'],
     pathex=[],
     binaries=[],
-    datas=[('assets\\attack.png', 'assets'), ('assets\\attack2.png', 'assets'), ('assets\\collect.png', 'assets'), ('assets\\elixirBase.png', 'assets'), ('assets\\elixirElixir.png', 'assets'), ('assets\\elixirFight.png', 'assets'), ('assets\\findnow.png', 'assets'), ('assets\\secondClean.png', 'assets'), ('assets\\secondDirty.png', 'assets'), ('assets\\play.png', 'assets')],
+    datas=[('assets\\attack.png', 'assets'), ('assets\\attack2.png', 'assets'), ('assets\\collect.png', 'assets'), ('assets\\elixirBase.png', 'assets'), ('assets\\elixirElixir.png', 'assets'), ('assets\\elixirFight.png', 'assets'), ('assets\\findnow.png', 'assets'), ('assets\\secondClean.png', 'assets'), ('assets\\secondDirty.png', 'assets'), ('assets\\play.png', 'assets'), ('assets\\play2.png', 'assets'), ('assets\\secondSkin.png', 'assets')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
