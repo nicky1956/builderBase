@@ -42,7 +42,7 @@ def getWindow(title):
         threshold_image = cv2.cvtColor(screenshot_np, cv2.COLOR_RGB2BGR)
 
     return target_monitor, threshold_image
-
+    
 def move_mouse_to_middle_of_window():
     window_title = 'Clash of Clans'
     target_window = gw.getWindowsWithTitle(window_title)
@@ -124,7 +124,10 @@ def click_image_location(template_paths, title='Clash of Clans', bottom_right=Fa
                           scale=True):
     # Get target window and color image for the Clash window
     target_monitor, threshold_image = getWindow(title)
-
+    # cv2.imshow("Threshold Image", threshold_image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    
     # Check if template_paths is a list; if not, cast it
     if not isinstance(template_paths, list):
         template_paths = list([template_paths])
@@ -202,7 +205,8 @@ def main():
     #click on the elixir cart
     if click_image_location([resource_path(r"assets\elixirElixir.png"),
                           resource_path(r"assets\elixirFight.png"),
-                          resource_path(r"assets\elixirBase.png")]) == None:
+                          resource_path(r"assets\elixirBase.png"),
+                          resource_path(r"assets\elixirElixir2.png")]) == None:
         print("Cannot find elixir cart")
         close_clash_of_clans()
         return
